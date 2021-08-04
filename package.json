@@ -4,7 +4,7 @@
   "description": "Challenge provided by Rooftop Academy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc src/index.ts --esModuleInterop && node src/index.js"
   },
   "author": "Julio Romero",
   "license": "MIT",
