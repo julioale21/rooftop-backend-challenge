@@ -1,9 +1,14 @@
+import "reflect-metadata";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+
+import { createConnection } from "typeorm";
+
 import couponsRoutes from "./routes/coupons.routes";
 
 const app = express();
+createConnection();
 const port = 8080;
 
 // middlewares
