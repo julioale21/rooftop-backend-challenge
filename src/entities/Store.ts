@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "coupons" })
-export class Coupon {
+@Entity({ name: "stores", schema: "rooftop-backend-challenge" })
+export class Store {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,5 +9,5 @@ export class Coupon {
   name: string;
 
   @Column()
-  addess: string;
+  address: string;
 }
