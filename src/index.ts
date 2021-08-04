@@ -1,12 +1,18 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import couponsRoutes from "./routes/coupons.routes";
+
 const app = express();
 const port = 8080;
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// middlewares
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+
+//routes:
+app.use(couponsRoutes);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
