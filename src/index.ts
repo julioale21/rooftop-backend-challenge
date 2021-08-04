@@ -6,6 +6,7 @@ import cors from "cors";
 import { createConnection } from "typeorm";
 
 import couponsRoutes from "./routes/coupons.routes";
+import storesRoutes from "./routes/stores.routes";
 
 const app = express();
 createConnection();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 //routes:
 app.use(couponsRoutes);
+app.use(storesRoutes);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
