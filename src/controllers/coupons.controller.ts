@@ -4,6 +4,8 @@ import CouponsService from "../services/coupons.service";
 import { Coupon } from "../entities/Coupon";
 
 const codeRegExp = new RegExp("^[A-Za-z0-9]{8}$");
+const mailformat =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const getCoupon = async (req: Request, res: Response): Promise<Response> => {
   if (!req.query.email) return res.status(400).send({ message: "You must provide an email." });
@@ -37,4 +39,23 @@ export const createCoupon = async (req: Request, res: Response): Promise<Respons
   if (!newCoupon) return res.status(422).send({ message: "Coupon could not be created" });
 
   return res.status(201).send({ message: "Coupon successfully created" });
+};
+
+export const updateCoupon = async (req: Request, res: Response): Promise<Response> => {
+  const { id } = req.params;
+  const coupon = { ...req.body };
+
+  const validEmail = String(coupon.customer_email).match(mailformat);
+  if (!validEmail) return res.status(422).send({ message: "Invalid Email" });
+
+  const exists = await CouponsService.findById(id);
+
+  if (!exists) return res.status(422).send({ message: "Coupon do not exist on database" });
+
+  const isEmailInUse = await CouponsService.findByCustomerEmail(coupon.customer_email);
+  if (isEmailInUse) return res.status(422).send({ message: "Email has already a coupon assigned" });
+
+  const updatedCoupon = await CouponsService.update(coupon);
+
+  return res.status(201).json(updatedCoupon);
 };
