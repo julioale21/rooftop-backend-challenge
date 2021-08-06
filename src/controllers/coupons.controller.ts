@@ -59,3 +59,22 @@ export const updateCoupon = async (req: Request, res: Response): Promise<Respons
 
   return res.status(201).json(updatedCoupon);
 };
+
+export const deleteCoupon = async (req: Request, res: Response): Promise<Response> => {
+  const { id } = req.params;
+  if (!id) return res.status(404).send({ message: "No id provided " });
+
+  const coupon = await CouponsService.findById(id);
+
+  if (!coupon) return res.status(404).send({ message: "Not coupon found" });
+
+  if (coupon.customer_email) {
+    return res.status(404).send({ message: "Coupon is assigned to a customer, cannot delete it" });
+  }
+
+  const response = await CouponsService.delete(coupon.id);
+  if (response.affected == 1)
+    return res.status(201).send({ message: "Coupon successfully deleted" });
+
+  return res.status(404).send({ message: "Something was wrong, coupon could not be deleted" });
+};
