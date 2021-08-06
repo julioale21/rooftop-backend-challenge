@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm";
 
 @Entity({ name: "coupons", schema: "rooftop-backend-challenge" })
 export class Coupon {
@@ -16,4 +16,7 @@ export class Coupon {
 
   @Column()
   customer_email: string;
+
+  @DeleteDateColumn()
+  deleted_at: string;
 }

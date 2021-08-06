@@ -50,4 +50,9 @@ export default class CouponsService {
     const response = await getRepository(Coupon).delete(id);
     return response;
   };
+
+  public static softDelete = async (id: string) => {
+    const response = await getRepository(Coupon).softDelete(id);
+    return response;
+  };
 }

@@ -72,7 +72,7 @@ export const deleteCoupon = async (req: Request, res: Response): Promise<Respons
     return res.status(404).send({ message: "Coupon is assigned to a customer, cannot delete it" });
   }
 
-  const response = await CouponsService.delete(coupon.id);
+  const response = await CouponsService.softDelete(coupon.id);
   if (response.affected == 1)
     return res.status(201).send({ message: "Coupon successfully deleted" });
 
