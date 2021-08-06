@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "coupons", schema: "rooftop-backend-challenge"  })
+@Entity({ name: "coupons", schema: "rooftop-backend-challenge" })
 export class Coupon {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,10 +9,10 @@ export class Coupon {
   code: string;
 
   @Column()
-  expires_at: string;
+  expires_at: Date;
 
   @Column()
-  assigned_at: string;
+  assigned_at: number;
 
   @Column()
   customer_email: string;
