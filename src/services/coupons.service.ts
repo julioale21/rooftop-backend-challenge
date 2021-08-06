@@ -45,4 +45,9 @@ export default class CouponsService {
     const updatedCoupon = await getRepository(Coupon).save(coupon);
     return updatedCoupon;
   };
+
+  public static delete = async (id: string) => {
+    const response = await getRepository(Coupon).delete(id);
+    return response;
+  };
 }
