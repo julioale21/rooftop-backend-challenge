@@ -17,6 +17,9 @@ export class Coupon {
   @Column()
   customer_email: string;
 
+  @Column()
+  created_at: Date;
+
   @DeleteDateColumn()
   deleted_at: string;
 }
