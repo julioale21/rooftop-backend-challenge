@@ -6,9 +6,6 @@ ADD COLUMN created_at DATE;
 ALTER TABLE "rooftop-backend-challenge".coupons
 ADD COLUMN deleted_at DATE;
 
-ALTER TABLE "rooftop-backend-challenge".coupons
-ADD COLUMN count INTEGER NOT NULL DEFAULT 1;
-
 ALTER TABLE "rooftop-backend-challenge".stores
 ADD COLUMN deleted_at DATE;
 
