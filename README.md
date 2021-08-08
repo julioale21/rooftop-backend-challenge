@@ -73,10 +73,12 @@ The "stores" resource accepts the following methods:
   - You must page 10 results per page
   - Include in the response the total number of existing stores
   - Allow search for stores using the "name" attribute in the query string
+
 - POST
   - Allows you to register new stores
   - It must be validated that the name and address are complete
   - Use the corresponding response codes
+
 - DELETE
   - You can unsubscribe a store by passing the id as a parameter in the url
   
