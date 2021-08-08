@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm";
 
-@Entity({ name: "stores", schema: "rooftop-backend-challenge" })
+@Entity({ name: "stores" })
 export class Store {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,4 +10,10 @@ export class Store {
 
   @Column()
   address: string;
+
+  @Column()
+  created_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: string;
 }
