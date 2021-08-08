@@ -20,14 +20,14 @@ export default class StatsService {
     const totalCreatedByDay = await builder
       .where({ deleted_at: IsNull() })
       .select("coupons.created_at")
-      .addSelect("SUM(coupons.count)", "sum")
+      .addSelect("SUM(1)", "sum")
       .groupBy("coupons.created_at")
       .execute();
 
     const totalAssignedByDay = await builder
       .where({ deleted_at: IsNull() })
       .select("coupons.assigned_at")
-      .addSelect("SUM(coupons.count)", "sum")
+      .addSelect("SUM(1)", "sum")
       .groupBy("coupons.assigned_at")
       .execute();
 
