@@ -7,18 +7,16 @@ export default class StoresService {
     limit: number = 10,
     offset: number = 0,
   ): Promise<any> => {
-    // paginar los resultados
     const builder = getRepository(Store).createQueryBuilder("stores");
     const total = await builder
       .where({ name: Like(`%${name || ""}%`), deleted_at: null })
       .getCount();
 
-    const stores = await getRepository(Store).find({
-      withDeleted: false,
-      skip: offset,
-      take: limit,
-      where: { name: Like(`%${name || ""}%`) },
-    });
+    const stores = await builder
+      .where({ name: Like(`%${name || ""}%`), deleted_at: null })
+      .skip(offset)
+      .take(limit)
+      .execute();
 
     const totalPages = Math.ceil(total / limit);
     const page = Math.ceil(offset / limit);
