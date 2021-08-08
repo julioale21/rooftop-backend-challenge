@@ -1,6 +1,6 @@
 {
   "name": "rooftop-backend-challenge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Challenge provided by Rooftop Academy",
   "main": "index.js",
   "scripts": {
