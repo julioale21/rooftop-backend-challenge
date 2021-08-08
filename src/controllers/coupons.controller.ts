@@ -4,7 +4,7 @@ import CouponsService from "../services/coupons.service";
 import { Coupon } from "../entities/Coupon";
 
 const codeRegExp = new RegExp("^[A-Za-z0-9]{8}$");
-const mailformat =
+const mailFormat =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const getCoupon = async (req: Request, res: Response): Promise<Response> => {
@@ -17,6 +17,12 @@ export const getCoupon = async (req: Request, res: Response): Promise<Response> 
   );
 
   if (!coupon) return res.status(404).send({ message: "Not coupon found" });
+
+  return res.status(200).json(coupon);
+};
+
+export const getCouponById = async (req: Request, res: Response): Promise<Response> => {
+  const coupon = await CouponsService.findById(req.params.id as string);
 
   return res.status(200).json(coupon);
 };
@@ -45,7 +51,7 @@ export const updateCoupon = async (req: Request, res: Response): Promise<Respons
   const { id } = req.params;
   const coupon = { ...req.body };
 
-  const validEmail = String(coupon.customer_email).match(mailformat);
+  const validEmail = String(coupon.customer_email).match(mailFormat);
   if (!validEmail) return res.status(422).send({ message: "Invalid Email" });
 
   const exists = await CouponsService.findById(id);
