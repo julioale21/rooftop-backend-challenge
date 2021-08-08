@@ -2,13 +2,34 @@ import { getRepository, Like } from "typeorm";
 import { Store } from "../entities/Store";
 
 export default class StoresService {
-  public static getAll = async (name?: string): Promise<Store[]> => {
+  public static getAll = async (
+    name?: string,
+    limit: number = 10,
+    offset: number = 0,
+  ): Promise<any> => {
     // paginar los resultados
+    const builder = getRepository(Store).createQueryBuilder("stores");
+    const total = await builder
+      .where({ name: Like(`%${name || ""}%`), deleted_at: null })
+      .getCount();
+
     const stores = await getRepository(Store).find({
       withDeleted: false,
-      where: { name: Like(`%${name}%`) },
+      skip: offset,
+      take: limit,
+      where: { name: Like(`%${name || ""}%`) },
     });
-    return stores;
+
+    const totalPages = Math.ceil(total / limit);
+    const page = Math.ceil(offset / limit);
+    return {
+      page,
+      total,
+      totalPages,
+      offset,
+      limit,
+      data: stores,
+    };
   };
 
   public static getById = async (id: string): Promise<any> => {

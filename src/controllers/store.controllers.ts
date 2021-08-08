@@ -2,8 +2,17 @@ import { Request, Response } from "express";
 import StoresService from "../services/stores.service";
 
 export const getStores = async (req: Request, res: Response): Promise<Response> => {
-  const { name } = req.query;
-  const stores = await StoresService.getAll(name as string);
+  const { name, limit, offset } = req.query;
+  let limitNumber;
+  let offsetNumber;
+  if (limit) {
+    limitNumber = parseInt(limit as string);
+  }
+
+  if (offset) {
+    offsetNumber = parseInt(offset as string);
+  }
+  const stores = await StoresService.getAll(name as string, limitNumber, offsetNumber);
   return res.json(stores);
 };
 
