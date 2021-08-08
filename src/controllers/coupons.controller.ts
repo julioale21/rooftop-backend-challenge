@@ -35,9 +35,9 @@ export const createCoupon = async (req: Request, res: Response): Promise<Respons
       message: "Missing or wrong code. Code must be 8 characters and contains chars and numbers",
     });
 
-  const existedCoupon = await CouponsService.findByCode(code);
+  const existsCoupon = await CouponsService.findByCode(code);
 
-  if (existedCoupon) return res.status(409).send({ message: "Code already in use" });
+  if (existsCoupon) return res.status(409).send({ message: "Code already in use" });
 
   const newCoupon = await CouponsService.create(code);
 
