@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import CouponsService from "../services/coupons.service";
-// import { getRepository } from "typeorm";
 import { Coupon } from "../entities/Coupon";
 
 const codeRegExp = new RegExp("^[A-Za-z0-9]{8}$");
@@ -8,8 +7,8 @@ const mailFormat =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const getCoupon = async (req: Request, res: Response): Promise<Response> => {
-  if (!req.query.email) return res.status(400).send({ message: "You must provide an email." });
-  if (!req.query.code) return res.status(400).send({ message: "You must provide coupon code" });
+  if (!req.query.email) return res.status(422).send({ message: "You must provide an email." });
+  if (!req.query.code) return res.status(422).send({ message: "You must provide coupon code" });
 
   const coupon: Coupon = await CouponsService.getByEmailAndCode(
     String(req.query.email),
@@ -32,7 +31,7 @@ export const createCoupon = async (req: Request, res: Response): Promise<Respons
   const match = codeRegExp.test(code);
 
   if (!match)
-    return res.status(400).send({
+    return res.status(422).send({
       message: "Missing or wrong code. Code must be 8 characters and contains chars and numbers",
     });
 
@@ -68,19 +67,19 @@ export const updateCoupon = async (req: Request, res: Response): Promise<Respons
 
 export const deleteCoupon = async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
-  if (!id) return res.status(404).send({ message: "No id provided " });
+  if (!id) return res.status(422).send({ message: "No id provided " });
 
   const coupon = await CouponsService.findById(id);
 
   if (!coupon) return res.status(404).send({ message: "Not coupon found" });
 
   if (coupon.customer_email) {
-    return res.status(404).send({ message: "Coupon is assigned to a customer, cannot delete it" });
+    return res.status(422).send({ message: "Coupon is assigned to a customer, cannot delete it" });
   }
 
   const response = await CouponsService.softDelete(coupon.id);
   if (response.affected == 1)
     return res.status(201).send({ message: "Coupon successfully deleted" });
 
-  return res.status(404).send({ message: "Something was wrong, coupon could not be deleted" });
+  return res.status(422).send({ message: "Something was wrong, coupon could not be deleted" });
 };
