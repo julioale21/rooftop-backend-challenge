@@ -155,3 +155,4 @@ Conventional commit names
 Database schema was modified.
 * Import database in Postgres
 * Execute script provided in docs
+* Setup .env variables. ( There is an .env.example with the name of the variables)
