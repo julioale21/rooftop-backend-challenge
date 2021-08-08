@@ -1,12 +1,13 @@
 import { getRepository, Like } from "typeorm";
 import { Store } from "../entities/Store";
+import IPaginatedStores from "../interfaces/IPaginatedStores";
 
 export default class StoresService {
   public static getAll = async (
     name?: string,
     limit: number = 10,
     offset: number = 0,
-  ): Promise<any> => {
+  ): Promise<IPaginatedStores> => {
     const builder = getRepository(Store).createQueryBuilder("stores");
     const total = await builder
       .where({ name: Like(`%${name || ""}%`), deleted_at: null })
@@ -20,7 +21,8 @@ export default class StoresService {
 
     const totalPages = Math.ceil(total / limit);
     const page = Math.ceil(offset / limit);
-    return {
+
+    const result: IPaginatedStores = {
       page,
       total,
       totalPages,
@@ -28,6 +30,8 @@ export default class StoresService {
       limit,
       data: stores,
     };
+
+    return result;
   };
 
   public static getById = async (id: string): Promise<any> => {
