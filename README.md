@@ -7,6 +7,9 @@
 
    <h1 align="center">Bakend - Rooftop Challenge</h1>
    
+ 
+### [📖 Go to CHANGELOG.md to see the changelog](CHANGELOG.md)
+   
   
 ## The challenge
 You will have to build a microservice that is in charge of managing the information of promotions, coupons and stores.
@@ -101,6 +104,7 @@ You can create a 3rd resource that returns historical and statistical informatio
 - Node js
 - Express
 - Typescript
+- Release-it
 
 ### Project Structure
 The files are structured as follow:
